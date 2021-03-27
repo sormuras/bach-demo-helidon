@@ -22,3 +22,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: 'Build with Bach'
         uses: sormuras/bach-build@v1
+      - name: 'Release with JReleaser'
+        uses: jreleaser/github-action@main
+        with:
+          arguments: --version
