@@ -23,6 +23,6 @@ jobs:
       - name: 'Build with Bach'
         uses: sormuras/bach-build@v1
       - name: 'Release with JReleaser'
-        uses: jreleaser/github-action@main
+        uses: jreleaser/release-action@v1
         with:
           arguments: --version
