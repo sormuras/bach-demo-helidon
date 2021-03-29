@@ -1,16 +1,47 @@
 # 🛫 Bach + Helidon
 
+This project is based on the [Helidon SE Quickstart Guide](https://helidon.io/docs/latest/#/se/guides/02_quickstart).
 
+## Build
+
+Build this project with Bach.
+
+- Install [JDK](https://jdk.java.net) 16 or later
+- Clone this repository
+- On Windows call `.bach\bin\bach build`, on Linux/MacOS `.bach/bin/bach build`
+
+> Note: Due to automatic modules being present, `jlink` is [disabled](https://github.com/sormuras/bach-helidon/blob/29e8181e10cdad1cdeb2002a9514f506ab2c806a/.bach/bach.info/module-info.java#L5) at the moment.
+> Once all dependences are Java modules, `jlink` will be used to create a custom runtime image.
+> See [#1] for details.
+
+## Run
+
+Run on the module-path.
+
+`java --module-path .bach/workspace/modules;.bach/external-modules --module com.github.sormuras.bach.helidon`
+
+```
+[...]
+INFO: Helidon SE 2.2.1 features: [Config, Health, Metrics, WebServer]
+[...]
+INFO: Channel '@default' started: [id: 0xdb5c3d99, L:/[0:0:0:0:0:0:0:0]:56096]
+WEB server is up! http://localhost:56096/greet
+```
+
+> Note: Running via custom runtime image is not supported, yet.
+> See [#1] for details.
 
 ## From Maven Archetype to Java Module Names
 
-https://helidon.io/docs/latest/#/se/guides/02_quickstart
+In order to generate this project's source files, the `mvn -U archetype:generate [...]` command was executed in a temporary directory.
+
+The following [Maven command](https://twitter.com/sormuras/status/1005918580670697473) was used to find out the names of Java modules for all dependencies:
 
 ```shell
 mvn compile org.apache.maven.plugins:maven-dependency-plugin:3.1.1:resolve
 ```
 
-Yielded:
+It yielded:
 
 ```text
 [INFO] --- maven-dependency-plugin:3.1.1:resolve (default-cli) @ helidon-quickstart-se ---
@@ -64,7 +95,7 @@ Yielded:
 [INFO]    io.netty:netty-codec-socks:jar:4.1.58.Final:test -- module io.netty.codec.socks [auto]
 ```
 
-Transformed to:
+This information was (manually) transformed into Bach's Module Lookup annotations:
 
 ```java
 lookupExternal = {
@@ -95,3 +126,20 @@ lookupExternal = {
     @External(via = "org.yaml:snakeyaml:1.27", module = "org.yaml.snakeyaml"),
 },
 ```
+
+With that mapping (from a module name to a Maven artifact hosted at Maven Central) in place, Bach is able to download external modules and build this modular Java project.
+The project-defining module looks like:
+
+```java
+module com.github.sormuras.bach.helidon {
+  requires java.json;
+  requires java.logging;
+  requires io.helidon.webserver;
+  requires io.helidon.media.jsonp;
+  requires io.helidon.metrics;
+  requires io.helidon.health;
+  requires io.helidon.health.checks;
+}
+```
+
+[#1]: https://github.com/sormuras/bach-helidon/issues/1
