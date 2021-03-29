@@ -18,7 +18,13 @@ Build this project with Bach.
 
 Run on the module-path.
 
-`java --module-path .bach/workspace/modules;.bach/external-modules --module com.github.sormuras.bach.helidon`
+On Windows:
+
+`java --module-path .bach\workspace\modules;.bach\external-modules --module com.github.sormuras.bach.helidon`
+
+On Linux/MacOS:
+
+`java --module-path .bach/workspace/modules:.bach/external-modules --module com.github.sormuras.bach.helidon`
 
 ```
 [...]
@@ -30,6 +36,10 @@ WEB server is up! http://localhost:56096/greet
 
 > Note: Running via custom runtime image is not supported, yet.
 > See [#1] for details.
+
+For further actions, consult the [Helidon SE Quickstart Guide](https://helidon.io/docs/latest/#/se/guides/02_quickstart).
+
+Hit `CTRL+c` to exit the process.
 
 ## From Maven Archetype to Java Module Names
 
@@ -100,30 +110,30 @@ This information was (manually) transformed into Bach's Module Lookup annotation
 ```java
 lookupExternal = {
     // Netty
-    @External(via = "io.netty:netty-buffer:4.1.60.Final", module = "io.netty.buffer"),
-    @External(via = "io.netty:netty-codec-http2:4.1.60.Final", module = "io.netty.codec.http2"),
-    @External(via = "io.netty:netty-codec-http:4.1.60.Final", module = "io.netty.codec.http"),
-    @External(via = "io.netty:netty-codec-socks:4.1.60.Final", module = "io.netty.codec.socks"),
-    @External(via = "io.netty:netty-codec:4.1.60.Final", module = "io.netty.codec"),
-    @External(via = "io.netty:netty-common:4.1.60.Final", module = "io.netty.common"),
-    @External(via = "io.netty:netty-handler-proxy:4.1.60.Final", module = "io.netty.handler.proxy"),
-    @External(via = "io.netty:netty-handler:4.1.60.Final", module = "io.netty.handler"),
-    @External(via = "io.netty:netty-resolver:4.1.60.Final", module = "io.netty.resolver"),
-    @External(via = "io.netty:netty-transport:4.1.60.Final", module = "io.netty.transport"),
+    @External(module = "io.netty.buffer", via = "io.netty:netty-buffer:4.1.60.Final"),
+    @External(module = "io.netty.codec.http2", via = "io.netty:netty-codec-http2:4.1.60.Final"),
+    @External(module = "io.netty.codec.http", via = "io.netty:netty-codec-http:4.1.60.Final"),
+    @External(module = "io.netty.codec.socks", via = "io.netty:netty-codec-socks:4.1.60.Final"),
+    @External(module = "io.netty.codec", via = "io.netty:netty-codec:4.1.60.Final"),
+    @External(module = "io.netty.common", via = "io.netty:netty-common:4.1.60.Final"),
+    @External(module = "io.netty.handler.proxy", via = "io.netty:netty-handler-proxy:4.1.60.Final"),
+    @External(module = "io.netty.handler", via = "io.netty:netty-handler:4.1.60.Final"),
+    @External(module = "io.netty.resolver", via = "io.netty:netty-resolver:4.1.60.Final"),
+    @External(module = "io.netty.transport", via = "io.netty:netty-transport:4.1.60.Final"),
     // OpenTracing
-    @External(via = "io.opentracing:opentracing-api:0.33.0", module = "io.opentracing.api"),
-    @External(via = "io.opentracing:opentracing-noop:0.33.0", module = "io.opentracing.noop"),
-    @External(via = "io.opentracing:opentracing-util:0.33.0", module = "io.opentracing.util"),
+    @External(module = "io.opentracing.api", via = "io.opentracing:opentracing-api:0.33.0"),
+    @External(module = "io.opentracing.noop", via = "io.opentracing:opentracing-noop:0.33.0"),
+    @External(module = "io.opentracing.util", via = "io.opentracing:opentracing-util:0.33.0"),
     // Jakarta 1
-    @External(via = "jakarta.annotation:jakarta.annotation-api:1.3.5", module = "java.annotation"),
+    @External(module = "java.annotation", via = "jakarta.annotation:jakarta.annotation-api:1.3.5"),
     // MP API
-    @External(via = "org.eclipse.microprofile.config:microprofile-config-api:1.4", module = "microprofile.config.api"),
-    @External(via = "org.eclipse.microprofile.health:microprofile-health-api:2.2", module = "microprofile.health.api"),
-    @External(via = "org.eclipse.microprofile.metrics:microprofile-metrics-api:2.3.2", module = "microprofile.metrics.api"),
+    @External(module = "microprofile.config.api", via = "org.eclipse.microprofile.config:microprofile-config-api:1.4"),
+    @External(module = "microprofile.health.api", via = "org.eclipse.microprofile.health:microprofile-health-api:2.2"),
+    @External(module = "microprofile.metrics.api", via = "org.eclipse.microprofile.metrics:microprofile-metrics-api:2.3.2"),
     // Jakarta 2
-    @External(via = "org.glassfish:jakarta.json:1.1.6", module = "java.json"),
+    @External(module = "java.json", via = "org.glassfish:jakarta.json:1.1.6"),
     // Snakes and Dragons
-    @External(via = "org.yaml:snakeyaml:1.27", module = "org.yaml.snakeyaml"),
+    @External(module = "org.yaml.snakeyaml", via = "org.yaml:snakeyaml:1.27"),
 },
 ```
 
@@ -141,5 +151,9 @@ module com.github.sormuras.bach.helidon {
   requires io.helidon.health.checks;
 }
 ```
+
+That's it.
+
+This root module declaration and the module lookup configuration suffices to build a modular Java project.
 
 [#1]: https://github.com/sormuras/bach-helidon/issues/1
