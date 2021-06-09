@@ -33,7 +33,7 @@ import com.github.sormuras.bach.ProjectInfo.*;
     },
     lookupExternals = {
         @Externals(name = Externals.Name.JUNIT, version = "5.8.0-M1"),
-        @Externals(name = Externals.Name.SORMURAS_MODULES, version = "2021.03"),
+        @Externals(name = Externals.Name.SORMURAS_MODULES, version = "2021.06.06"),
     }
     // </editor-fold>
 )
