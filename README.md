@@ -6,7 +6,7 @@ This project is based on the [Helidon SE Quickstart Guide](https://helidon.io/do
 
 Build this project with Bach.
 
-- Install [JDK](https://jdk.java.net) 16 or later
+- Install [JDK](https://jdk.java.net) 17 or later
 - Clone this repository
 - On Windows call `.bach\bin\bach build`, on Linux/MacOS `.bach/bin/bach build`
 
@@ -105,36 +105,31 @@ It yielded:
 [INFO]    io.netty:netty-codec-socks:jar:4.1.58.Final:test -- module io.netty.codec.socks [auto]
 ```
 
-This information was (manually) transformed into Bach's Module Lookup annotations:
+This information was (manually) transformed into Bach's Module Locator:
 
 ```java
-lookupExternal = {
-    // Netty
-    @External(module = "io.netty.buffer", via = "io.netty:netty-buffer:4.1.60.Final"),
-    @External(module = "io.netty.codec.http2", via = "io.netty:netty-codec-http2:4.1.60.Final"),
-    @External(module = "io.netty.codec.http", via = "io.netty:netty-codec-http:4.1.60.Final"),
-    @External(module = "io.netty.codec.socks", via = "io.netty:netty-codec-socks:4.1.60.Final"),
-    @External(module = "io.netty.codec", via = "io.netty:netty-codec:4.1.60.Final"),
-    @External(module = "io.netty.common", via = "io.netty:netty-common:4.1.60.Final"),
-    @External(module = "io.netty.handler.proxy", via = "io.netty:netty-handler-proxy:4.1.60.Final"),
-    @External(module = "io.netty.handler", via = "io.netty:netty-handler:4.1.60.Final"),
-    @External(module = "io.netty.resolver", via = "io.netty:netty-resolver:4.1.60.Final"),
-    @External(module = "io.netty.transport", via = "io.netty:netty-transport:4.1.60.Final"),
-    // OpenTracing
-    @External(module = "io.opentracing.api", via = "io.opentracing:opentracing-api:0.33.0"),
-    @External(module = "io.opentracing.noop", via = "io.opentracing:opentracing-noop:0.33.0"),
-    @External(module = "io.opentracing.util", via = "io.opentracing:opentracing-util:0.33.0"),
-    // Jakarta 1
-    @External(module = "java.annotation", via = "jakarta.annotation:jakarta.annotation-api:1.3.5"),
-    // MP API
-    @External(module = "microprofile.config.api", via = "org.eclipse.microprofile.config:microprofile-config-api:1.4"),
-    @External(module = "microprofile.health.api", via = "org.eclipse.microprofile.health:microprofile-health-api:2.2"),
-    @External(module = "microprofile.metrics.api", via = "org.eclipse.microprofile.metrics:microprofile-metrics-api:2.3.2"),
-    // Jakarta 2
-    @External(module = "java.json", via = "org.glassfish:jakarta.json:1.1.6"),
-    // Snakes and Dragons
-    @External(module = "org.yaml.snakeyaml", via = "org.yaml:snakeyaml:1.27"),
-},
+class build {
+  // ...
+  static String locateHelidonModule(String module) {
+    if (!module.startsWith("io.helidon")) return null;
+    var version = "2.3.2";
+    return switch (module) {
+      case "io.helidon.common.pki" -> Maven.central(
+          "io.helidon.common", "helidon-common-key-util", version);
+      case "io.helidon.faulttolerance" -> Maven.central(
+          "io.helidon.common", "helidon-common-service-loader", version);
+      case "io.helidon.common.serviceloader" -> Maven.central(
+          "io.helidon.fault-tolerance", "helidon-fault-tolerance", version);
+      case "io.helidon.servicecommon.rest" -> Maven.central(
+          "io.helidon.service-common", "helidon-service-common-rest", version);
+      default -> {
+        var group = String.join(".", List.of(module.split("\\.")).subList(0, 3));
+        var artifact = module.substring(3).replace('.', '-');
+        yield Maven.central(group, artifact, version);
+      }
+    };
+  }
+}
 ```
 
 With that mapping (from a module name to a Maven artifact hosted at Maven Central) in place, Bach is able to download external modules and build this modular Java project.
