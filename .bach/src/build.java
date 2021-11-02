@@ -26,7 +26,7 @@ class build {
 
   static String locateHelidonModule(String module) {
     if (!module.startsWith("io.helidon")) return null;
-    var version = "2.3.2";
+    var version = "2.4.0";
     return switch (module) {
       case "io.helidon.common.pki" -> Maven.central(
           "io.helidon.common", "helidon-common-key-util", version);
@@ -34,6 +34,8 @@ class build {
           "io.helidon.common", "helidon-common-service-loader", version);
       case "io.helidon.common.serviceloader" -> Maven.central(
           "io.helidon.fault-tolerance", "helidon-fault-tolerance", version);
+      case "io.helidon.metrics.serviceapi" -> Maven.central(
+          "io.helidon.metrics", "helidon-metrics-service-api", version);
       case "io.helidon.servicecommon.rest" -> Maven.central(
           "io.helidon.service-common", "helidon-service-common-rest", version);
       default -> {

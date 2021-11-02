@@ -28,7 +28,7 @@ On Linux/MacOS:
 
 ```
 [...]
-INFO: Helidon SE 2.2.1 features: [Config, Health, Metrics, WebServer]
+INFO: Helidon SE 2.4.0 features: [Config, Health, Metrics, WebServer]
 [...]
 INFO: Channel '@default' started: [id: 0xdb5c3d99, L:/[0:0:0:0:0:0:0:0]:56096]
 WEB server is up! http://localhost:56096/greet
@@ -112,7 +112,7 @@ class build {
   // ...
   static String locateHelidonModule(String module) {
     if (!module.startsWith("io.helidon")) return null;
-    var version = "2.3.2";
+    var version = "2.4.0";
     return switch (module) {
       case "io.helidon.common.pki" -> Maven.central(
           "io.helidon.common", "helidon-common-key-util", version);
@@ -122,6 +122,7 @@ class build {
           "io.helidon.fault-tolerance", "helidon-fault-tolerance", version);
       case "io.helidon.servicecommon.rest" -> Maven.central(
           "io.helidon.service-common", "helidon-service-common-rest", version);
+      // here be more special cases...
       default -> {
         var group = String.join(".", List.of(module.split("\\.")).subList(0, 3));
         var artifact = module.substring(3).replace('.', '-');
