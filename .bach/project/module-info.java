@@ -1,8 +1,6 @@
 module project {
   requires run.bach;
 
-  provides run.bach.Project.Factory with
-      project.Demo;
-  provides run.bach.ToolTweak with
-      project.EnablePreviewTweak;
+  provides run.bach.Composer with
+      project.DemoComposer;
 }

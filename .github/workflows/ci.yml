@@ -21,4 +21,4 @@ jobs:
         with:
           release: ${{ matrix.java }}
       - name: 'Build with Bach'
-        run: java .bach/bin/bach.java build
+        run: .bach/bin/bach build

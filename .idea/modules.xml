@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/bach-helidon.iml" filepath="$PROJECT_DIR$/.idea/bach-helidon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bach-demo-helidon.iml" filepath="$PROJECT_DIR$/.idea/bach-demo-helidon.iml" />
     </modules>
   </component>
 </project>
