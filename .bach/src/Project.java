@@ -5,10 +5,6 @@ import run.bach.workflow.Structure.Space;
 import run.bach.workflow.Workflow;
 
 record Project(Workflow workflow) implements Builder {
-  public static void main(String... args) {
-    Project.ofCurrentWorkingDirectory().build();
-  }
-
   static Project ofCurrentWorkingDirectory() {
     var folders = Bach.Folders.ofCurrentWorkingDirectory();
     var demo = folders.root("demo");
