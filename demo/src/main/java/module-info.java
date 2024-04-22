@@ -1,5 +1,6 @@
 module demo {
-    requires io.helidon.common.http;
-    requires io.helidon.nima.webclient;
-    requires io.helidon.nima.webserver;
+    requires io.helidon.logging.common;
+    requires io.helidon.webserver;
+    requires jakarta.json;
+    requires static org.eclipse.parsson;
 }

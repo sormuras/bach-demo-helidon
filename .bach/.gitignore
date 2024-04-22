@@ -1,4 +1,2 @@
 /out/
-
-*.jar
-!/bin/*.jar
+/var/
