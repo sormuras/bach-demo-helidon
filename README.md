@@ -14,7 +14,7 @@ Build this project with Bach.
 ```shell
 java @build
 ```
-## Run
+## Run via Java Launcher
 
 Run on the module-path.
 
@@ -30,7 +30,6 @@ On Windows:
 java --module-path .bach\out\main\modules;lib --module demo/demo.Main
 ```
 
-
 ```text
 [...]
 INFO: Helidon SE 4.0.7 features: [Config, Encoding, Media, WebServer]
@@ -41,11 +40,18 @@ INFO: Started all channels in 30 milliseconds. 338 milliseconds since JVM startu
 WEB server is up! http://localhost:8080/simple-greet
 ```
 
-> Note: Running via a custom runtime image is not supported, yet.
-> See [#1] for details.
+## Run via Custom Runtime Image
+
+- Linux/Mac
+```shell script
+.bach/out/main/image/bin/demo
+```
+
+- Windows
+```shell script
+.bach\out\main\image\bin\demo
+```
 
 For further actions, consult the [Helidon SE Quickstart Guide](https://helidon.io/docs/latest/#/se/guides/02_quickstart).
 
 Hit `CTRL+c` to exit the process.
-
-[#1]: https://github.com/sormuras/bach-demo-helidon/issues/1
