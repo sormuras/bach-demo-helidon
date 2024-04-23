@@ -21,13 +21,13 @@ Run on the module-path.
 On Linux/MacOS:
 
 ```shell
-java --module-path .bach/out/main/modules:lib --module demo/demo.Main
+java --module-path .bach/out/main/modules:lib --module demo
 ```
 
 On Windows:
 
 ```shell
-java --module-path .bach\out\main\modules;lib --module demo/demo.Main
+java --module-path .bach\out\main\modules;lib --module demo
 ```
 
 ```text

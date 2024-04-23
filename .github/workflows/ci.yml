@@ -24,4 +24,4 @@ jobs:
           release: ${{ matrix.java }}
       - name: 'Build with Bach'
         shell: bash
-        run: java --show-version @build
+        run: java --show-version -D--project-version=0-ea+$(echo "${{ github.sha }}" | cut -c1-7) @build
